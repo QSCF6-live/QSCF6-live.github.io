@@ -374,7 +374,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       <div class="tips">
         <b>首次使用</b>：安装后打开应用，在「系统设置」页填入 AI 服务配置（应用内引导）。<br>
         <b>macOS 提示</b>：应用未做付费签名，首次打开如提示「无法验证开发者」，请右键 → 打开，或在「系统设置 → 隐私与安全性」中允许。<br>
-        <b>Windows 提示</b>：安装包正在打包与验证中，上线后会出现在此位置。
+        <b>Windows 提示</b>：安装时如被杀毒软件或 SmartScreen 提示「未知发布者」，请选择「仍要运行」——应用未做付费签名。
       </div>
     </div>
   </div>
@@ -400,7 +400,7 @@ const FILES = {
     primary:{ href:REL+'/BOSS.-1.0.0-arm64.dmg',     t:'下载 for macOS', d:'安装镜像 · Apple Silicon（M 系列）', sz:'112 MB', pending:false },
     alt:    { href:REL+'/BOSS.-1.0.0-arm64-mac.zip', t:'备选：.zip 免安装版（解压即用）', sz:'108 MB' } },
   win: { label:'Windows',
-    primary:{ href:REL+'/BOSS.-1.0.0-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（路径已预留，待上传）', sz:'待上传', pending:true } }
+    primary:{ href:REL+'/BOSS.-1.0.0-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'93 MB', pending:false } }
 };
 let os = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac';
 function pick(o){ os=o; render(); }
