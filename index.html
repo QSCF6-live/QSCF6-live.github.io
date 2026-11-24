@@ -397,7 +397,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
 
 <header class="hero">
   <div class="wrap">
-    <span class="badge"><i></i>v1.0.1 · 通用版</span>
+    <span class="badge"><i></i>v1.0.2 · 通用版 + 技术侧清单</span>
     <h1>AI 招聘筛选，<br>每一句话都<em>有据可查</em></h1>
     <p class="sub">筛选条件写在一份文件里 · 数字自己算 · 拿不准的留给人 · 本地运行，数据不出本机</p>
     <div class="cta-row">
@@ -405,7 +405,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       <a class="btn btn-s" href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">GitHub Releases</a>
     </div>
     <div class="meta">
-      <span>更新于 2026-11-23</span>
+      <span>更新于 2026-11-24</span>
     </div>
   </div>
 </header>
@@ -834,19 +834,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">Releases</a>
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io" target="_blank" rel="noopener">GitHub</a>
     </div>
-    <span>© 2026 BOSS智能筛选 · v1.0.1</span>
+    <span>© 2026 BOSS智能筛选 · v1.0.2</span>
   </div>
 </footer>
 
 <script>
-const REL = 'https://github.com/QSCF6-live/QSCF6-live.github.io/releases/download/v1.0.1';
+const REL = 'https://github.com/QSCF6-live/QSCF6-live.github.io/releases/download/v1.0.2';
 // Windows 与 macOS 资产均在 Release v1.0.1 上（GitHub 资产名中文被剥离，统一用 BOSS. 前缀）
 const FILES = {
   mac: { label:'macOS',
-    primary:{ href:REL+'/BOSS.1.0.1-arm64.dmg',     t:'下载 for macOS', d:'安装镜像 · Apple Silicon（M 系列）', sz:'112 MB', pending:false },
-    alt:    { href:REL+'/BOSS.1.0.1-arm64-mac.zip', t:'备选：.zip 免安装版（解压即用）', sz:'108 MB' } },
+    primary:{ href:REL+'/BOSS.1.0.2-arm64.dmg',     t:'下载 for macOS', d:'安装镜像 · Apple Silicon（M 系列）', sz:'112 MB', pending:false },
+    alt:    { href:REL+'/BOSS.1.0.2-arm64-mac.zip', t:'备选：.zip 免安装版（解压即用）', sz:'108 MB' } },
   win: { label:'Windows',
-    primary:{ href:REL+'/BOSS.1.0.1-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'92 MB', pending:false } }
+    primary:{ href:REL+'/BOSS.1.0.2-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'92 MB', pending:false } }
 };
 let os = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac';
 function pick(o){
