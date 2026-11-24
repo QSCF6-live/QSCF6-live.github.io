@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BOSS智能筛选 — AI 招聘筛选助手</title>
-<meta name="description" content="BOSS 直聘自动招聘助手：AI 判据筛选 + 机械校验 + 人机协同闸门。本地运行，数据不出本机。">
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%234f8cf0"/><stop offset="1" stop-color="%232563eb"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(%23g)"/><path d="M19 19h26l-8.5 9.5v9.5L26 44V28.5z" fill="white" opacity=".96"/><circle cx="45" cy="44" r="9" fill="#fff"/><path d="M41 44l3 3 5.5-6" stroke="#2f6bf0" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
+<meta name="description" content="BOSS 直聘自动招聘助手：筛选条件写在一份文件里，数字自己算，拿不准的留给人。本地运行，数据不出本机">
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%234f8cf0"/><stop offset="1" stop-color="%231f56d6"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(%23g)"/><path d="M19 19h26l-8.5 9.5v9.5L26 44V28.5z" fill="white" opacity=".96"/><circle cx="45" cy="44" r="9" fill="#fff"/><path d="M41 44l3 3 5.5-6" stroke="#2f6bf0" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
 <style>
 :root{
   --bg:#fbfbfc; --panel:#ffffff; --line:rgba(15,18,30,.09); --line2:rgba(15,18,30,.18);
@@ -17,9 +17,9 @@
   --r:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:var(--bg)}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI","Microsoft YaHei",sans-serif;
-  background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+  background:transparent;color:var(--tx);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
 ::selection{background:rgba(47,107,240,.16)}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
@@ -32,7 +32,11 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop
 .brand{display:flex;align-items:center;gap:10px;font-weight:650;font-size:15px}
 .brand svg{width:24px;height:24px;display:block}
 .nav-r{display:flex;align-items:center;gap:24px;font-size:13.5px;color:var(--tx2)}
+.nav-r a{transition:color .2s}
 .nav-r a:hover{color:var(--tx)}
+.nav-r a.on{color:var(--ac);font-weight:600;position:relative}
+.nav-r a.on::after{content:"";position:absolute;left:50%;bottom:-9px;width:16px;height:2px;border-radius:2px;
+  background:var(--ac);transform:translateX(-50%);box-shadow:0 0 8px rgba(47,107,240,.6)}
 .nav-cta{background:var(--ac);color:#fff;font-weight:600;font-size:13px;
   padding:7px 16px;border-radius:9px;transition:transform .15s,opacity .15s}
 .nav-cta:hover{transform:translateY(-1px);opacity:.9}
@@ -59,7 +63,7 @@ h1 em{font-style:normal;
   -webkit-text-fill-color:transparent;color:transparent;
   animation:shine 6s linear infinite}
 @keyframes shine{from{background-position:110% 0}to{background-position:-110% 0}}
-.sub{margin:22px auto 0;max-width:560px;color:var(--tx2);font-size:16.5px}
+.sub{margin:22px auto 0;max-width:620px;color:var(--tx2);font-size:16.5px;text-wrap:balance}
 .cta-row{display:flex;gap:14px;justify-content:center;margin-top:36px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;padding:13px 26px;
   font-size:15px;font-weight:600;transition:transform .16s,box-shadow .16s,border-color .16s,background .16s}
@@ -73,8 +77,8 @@ h1 em{font-style:normal;
 section{padding:88px 0;scroll-margin-top:76px} /* 修复：锚点定位不再被吸顶导航遮住标题 */
 .sec-head{text-align:center;margin-bottom:52px}
 .kicker{font-size:12.5px;letter-spacing:2.5px;color:var(--ac);text-transform:uppercase;font-weight:600}
-.sec-head h2{font-size:clamp(26px,4vw,36px);font-weight:700;letter-spacing:-.02em;margin-top:14px}
-.sec-head p{color:var(--tx2);margin-top:12px;font-size:15px}
+.sec-head h2{font-size:clamp(29px,4.4vw,42px);font-weight:700;letter-spacing:-.025em;margin-top:12px;text-wrap:balance}
+.sec-head p{color:var(--tx2);margin-top:14px;font-size:15.5px;letter-spacing:.005em;text-wrap:balance}
 
 /* ── showcase：程序界面模拟图 ── */
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
@@ -82,22 +86,27 @@ section{padding:88px 0;scroll-margin-top:76px} /* 修复：锚点定位不再被
   box-shadow:var(--sh-md);overflow:hidden;transition:transform .2s,box-shadow .2s}
 .shot:hover{transform:translateY(-3px);box-shadow:0 18px 44px -14px rgba(16,24,40,.18)}
 .shot svg{display:block;width:100%;height:auto}
-.shot figcaption{padding:14px 20px;font-size:13px;color:var(--tx2);border-top:1px solid var(--line)}
-.shot figcaption b{color:var(--tx);font-weight:600}
+.shot figcaption{padding:14px 20px;font-size:13px;color:var(--tx2);border-top:1px solid var(--line);
+  min-height:70px;display:flex;align-items:flex-start}
+.shot figcaption b{color:var(--tx);font-weight:600;flex:none;white-space:nowrap;margin-right:2px}
 
-/* ── features ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+/* ── features ── */.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
 .card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
   padding:26px 24px;box-shadow:var(--sh-sm);transition:border-color .2s,transform .2s,box-shadow .2s}
 .card:hover{border-color:var(--ac-line);transform:translateY(-3px);box-shadow:var(--sh-md)}
 .card .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
   background:var(--ac-soft);border:1px solid var(--ac-line);margin-bottom:16px}
 .card .ic svg{width:19px;height:19px;stroke:var(--ac);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.card h3{font-size:15.5px;font-weight:600;margin-bottom:8px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
 .card p{font-size:13.5px;color:var(--tx2);line-height:1.75}
 .card .scene{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
   font-size:12.5px;color:var(--tx3);line-height:1.7}
 .card .scene b{color:var(--ac);font-weight:600}
+
+/* 功能区 5 张卡：前三张并排，末两张各占半幅，末行不留空 */
+#features .grid{grid-template-columns:repeat(6,1fr)}
+#features .card{grid-column:span 2}
+#features .card:nth-child(4),#features .card:nth-child(5){grid-column:span 3}
 
 /* ── roadmap ── */
 .tl{max-width:680px;margin:0 auto;position:relative;padding-left:26px}
@@ -121,10 +130,15 @@ section{padding:88px 0;scroll-margin-top:76px} /* 修复：锚点定位不再被
   border-radius:20px;padding:34px 34px 30px;box-shadow:var(--sh-md)}
 .dl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px}
 .dl-top h3{font-size:19px;font-weight:700}
-.seg{display:flex;background:var(--segtrack);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
-.seg button{background:transparent;border:0;color:var(--tx2);font-size:13px;font-weight:500;
+.seg{display:flex;position:relative;background:var(--segtrack);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg .seg-thumb{position:absolute;top:3px;left:3px;height:calc(100% - 6px);width:0;pointer-events:none;
+  background:var(--panel);border-radius:8px;box-shadow:var(--sh-sm);
+  transition:transform .34s cubic-bezier(.22,.61,.36,1),width .34s cubic-bezier(.22,.61,.36,1)}
+.seg button{position:relative;z-index:1;background:transparent;border:0;color:var(--tx2);font-size:13px;font-weight:500;
   padding:6px 16px;border-radius:8px;cursor:pointer;transition:all .15s}
-.seg button.on{background:var(--panel);color:var(--ac);box-shadow:var(--sh-sm);font-weight:600}
+.seg button.on{color:var(--ac);font-weight:600}
+#dl-body{transition:opacity .22s ease,transform .28s cubic-bezier(.22,.61,.36,1)}
+#dl-body.sw{opacity:0;transform:translateY(8px)}
 .dl-main{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   background:var(--ac);border-radius:14px;padding:20px 24px;color:#fff;
   box-shadow:0 14px 32px -10px rgba(47,107,240,.42);transition:transform .16s,box-shadow .16s,background .16s}
@@ -146,6 +160,37 @@ a.dl-main:hover{transform:translateY(-2px);background:var(--ac-deep);box-shadow:
 .tips b{color:var(--tx2);font-weight:600}
 .empty{color:var(--tx3);font-size:13.5px;padding:8px 2px}
 
+/* ── contact ── */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:14px}
+.ccard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px 24px 22px;box-shadow:var(--sh-sm);transition:border-color .2s,transform .2s,box-shadow .2s;
+  display:flex;flex-direction:column}
+.ccard:hover{border-color:var(--ac-line);transform:translateY(-3px);box-shadow:var(--sh-md)}
+.ccard .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:var(--ac-soft);border:1px solid var(--ac-line);margin-bottom:16px}
+.ccard .ic svg{width:19px;height:19px;stroke:var(--ac);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ccard h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.ccard .val{margin-top:8px;font-size:14.5px;color:var(--tx);font-weight:600;word-break:break-all;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.01em}
+.ccard .val a{color:var(--ac);text-decoration:none}
+.ccard .val a:hover{text-decoration:underline}
+.ccard .note{margin-top:8px;font-size:12.5px;color:var(--tx3);line-height:1.7}
+.cacts{margin-top:auto;padding-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+.cbtn{border:1px solid var(--line2);background:var(--tipsbg);color:var(--tx2);font-size:12.5px;
+  padding:7px 14px;border-radius:9px;cursor:pointer;font-family:inherit;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:border-color .15s,color .15s,background .15s}
+.cbtn:hover{border-color:var(--ac-line);color:var(--ac-deep);background:var(--ac-soft)}
+.cbtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* 复制提示气泡 */
+#toast{position:fixed;left:50%;bottom:34px;z-index:60;transform:translate(-50%,12px);opacity:0;
+  pointer-events:none;background:var(--panel);border:1px solid var(--ac-line);color:var(--tx);
+  font-size:13px;padding:11px 20px;border-radius:12px;box-shadow:var(--sh-md);
+  transition:opacity .22s ease,transform .22s cubic-bezier(.22,.61,.36,1)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+/* FAQ 与下载之间的横幅 */
+.cta-sec{padding:0}
+
 /* ── footer ── */
 footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;background:var(--panel)}
 .foot-in{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
@@ -154,10 +199,133 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
 .foot-links{display:flex;gap:20px}
 .foot-links a:hover{color:var(--tx)}
 
+
+/* ══ 滚动特效层 ══ */
+/* 交互背景：鼠标可拨动的点阵（canvas 铺在内容之下） */
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+
+/* 顶部滚动进度条 */
+#progress{position:fixed;left:0;top:0;height:2.5px;width:0;z-index:60;border-radius:0 2px 2px 0;
+  background:linear-gradient(90deg,var(--ac),#7aa5f7 45%,var(--ac));background-size:200% 100%;
+  box-shadow:0 0 14px rgba(47,107,240,.55);transition:width .08s linear;pointer-events:none}
+
+/* 入场揭示：滚动到视口内才淡入上移 */
+.rv{opacity:0;transform:translateY(28px) scale(.985);
+  transition:opacity .75s cubic-bezier(.22,.61,.36,1),transform .75s cubic-bezier(.22,.61,.36,1);
+  will-change:opacity,transform}
+.rv.in{opacity:1;transform:none}
+
+/* 卡片光标聚光 + 3D 微倾 */
+.tilt{position:relative;transform-style:preserve-3d;--rx:0deg;--ry:0deg;
+  transform:perspective(760px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s,border-color .22s}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(47,107,240,.14),transparent 62%);
+  opacity:0;transition:opacity .3s}
+.tilt:hover::after{opacity:1}
+
+/* 错峰揭示：同组卡片依次淡入（--d 为每张卡的延迟） */
+.stg{opacity:0;
+  transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .32s cubic-bezier(.2,.8,.2,1),
+             box-shadow .32s,border-color .22s;
+  transition-delay:var(--d,0ms),0s,0s,0s}
+.stg.in{opacity:1}
+
+/* 章节标题流光 */
+.kicker{background:linear-gradient(100deg,var(--ac) 35%,#9db6f0 50%,var(--ac) 65%);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:shine 7s linear infinite;display:inline-block}
+
+/* 指标条（数字滚动） */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin-top:30px}
+.stat{position:relative;overflow:hidden;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:20px 22px 18px}
+.stat .n{font-size:32px;font-weight:750;letter-spacing:-.03em;line-height:1.1;
+  background:linear-gradient(100deg,var(--ac),#7aa5f7);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent}
+.stat .n .u{font-size:15px;font-weight:600;-webkit-text-fill-color:var(--tx2);color:var(--tx2);margin-left:3px}
+.stat .l{font-size:12.5px;color:var(--tx3);margin-top:6px;line-height:1.6}
+.note{font-size:12.5px;color:var(--tx3);line-height:1.75}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2.5px;
+  background:linear-gradient(180deg,var(--ac),transparent)}
+
+/* 能力卡（最新能力） */
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.cap{position:relative;overflow:hidden;display:flex;flex-direction:column;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r);padding:26px 26px 22px;box-shadow:var(--sh-sm);
+  transition:transform .28s,box-shadow .28s,border-color .22s}
+.cap .ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--ac) 0%,#4f8cf0 100%);margin-bottom:18px;
+  box-shadow:0 10px 20px -10px rgba(47,107,240,.75)}
+.cap .ic svg{width:23px;height:23px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.cap .no{position:absolute;top:18px;right:24px;font-size:34px;font-weight:750;letter-spacing:-.04em;
+  line-height:1;color:rgba(47,107,240,.10);user-select:none}
+.cap:hover{border-color:var(--ac-line);box-shadow:var(--sh-md);
+  transform:translateY(-4px) perspective(760px) rotateX(var(--rx)) rotateY(var(--ry))}
+.cap h4{font-size:20px;font-weight:680;margin:0 0 10px;letter-spacing:-.02em}
+.cap p{font-size:13px;color:var(--tx2);line-height:1.75}
+.cap .why{margin-top:auto;padding-top:15px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--tx3);line-height:1.75}
+.cap .why b{color:var(--ac);font-weight:600}
+
+/* 工作流程 */
+.flow{max-width:920px;margin:0 auto;display:grid;gap:11px}
+.step{position:relative;display:grid;grid-template-columns:38px 1fr;gap:17px;align-items:start;
+  background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:17px 22px;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .22s}
+.step:hover{transform:translateX(7px) perspective(760px) rotateX(var(--rx)) rotateY(var(--ry));
+  border-color:var(--ac-line);box-shadow:var(--sh-md)}
+.step .no{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--ac-deep);background:var(--ac-soft);border:1px solid var(--ac-line);
+  font-variant-numeric:tabular-nums}
+.step h4{font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+.step p{font-size:13px;color:var(--tx2);margin-top:4px;line-height:1.72}
+.step .split{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:11.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--tx3)}
+.chip.me{border-color:rgba(47,107,240,.34);color:var(--ac-deep);background:var(--ac-soft)}
+.step .arrow{position:absolute;left:32px;bottom:-11px;width:1px;height:11px;background:var(--line2)}
+.step:last-child .arrow{display:none}
+
+/* FAQ 手风琴 */
+.faq{max-width:780px;margin:0 auto;display:grid;gap:10px}
+.qa{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .22s}
+.qa.open{border-color:var(--ac-line);box-shadow:var(--sh-sm)}
+.qa h4{font-size:16.5px;font-weight:600;padding:17px 50px 17px 20px;cursor:pointer;position:relative;
+  list-style:none;letter-spacing:-.01em}
+.qa h4::-webkit-details-marker{display:none}
+.qa h4::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-size:17px;font-weight:400;color:var(--ac);transition:transform .3s cubic-bezier(.22,.61,.36,1)}
+.qa.open h4::after{transform:translateY(-50%) rotate(45deg)}
+.qa .ans{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.22,.61,.36,1)}
+.qa .ans p{padding:0 20px 18px;font-size:13.5px;color:var(--tx2);line-height:1.85}
+.qa .ans p b{color:var(--tx);font-weight:600}
+.qa .ans code{font-size:12px;background:var(--tipsbg);border:1px solid var(--line);padding:1px 6px;border-radius:5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ac-deep)}
+
+/* 底部加强 CTA */
+.cta-band{position:relative;overflow:hidden;margin-top:8px;border-radius:22px;padding:46px 40px;text-align:center;
+  background:linear-gradient(135deg,var(--ac) 0%,#1f56d6 55%,#4f8cf0 100%);color:#fff;
+  box-shadow:0 22px 48px -18px rgba(47,107,240,.55)}
+.cta-band::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(420px 200px at 18% 12%,rgba(255,255,255,.22),transparent 62%),
+             radial-gradient(380px 200px at 84% 88%,rgba(255,255,255,.14),transparent 60%)}
+.cta-band>*{position:relative}
+.cta-band h2{font-size:clamp(22px,3.2vw,30px);font-weight:700;letter-spacing:-.02em}
+.cta-band p{margin-top:12px;font-size:14.5px;opacity:.9;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75}
+.cta-band .cta-row{margin-top:26px}
+.cta-band .btn-s{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.34);color:#fff;box-shadow:none}
+.cta-band .btn-s:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.5)}
+.cta-band .btn-p{background:#fff;color:var(--ac-deep);box-shadow:0 12px 28px -12px rgba(0,0,0,.4)}
+.cta-band .btn-p:hover{background:#f2f6ff}
+
 /* 动效降级：低端设备/系统设置「减少动态效果」时全部静止 */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   h1 em{-webkit-text-fill-color:var(--ac);color:var(--ac);background:none}
+  .kicker{-webkit-text-fill-color:var(--ac);color:var(--ac);background:none}
+  .rv{opacity:1!important;transform:none!important}
+  .stg{opacity:1!important}
+  .tilt:hover{transform:none}
+  #progress{display:none}
 }
 
 /* ── 深色模式：跟随系统，浅色仍为默认观感 ── */
@@ -175,6 +343,9 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
   .btn-p{box-shadow:0 1px 2px rgba(0,0,0,.5),0 12px 28px -10px rgba(47,107,240,.55)}
   .shot:hover{box-shadow:0 18px 44px -14px rgba(0,0,0,.7)}
   .dl-main{box-shadow:0 14px 32px -10px rgba(47,107,240,.5)}
+  .stat .n{background:linear-gradient(100deg,#6ea0f5,#9db6f0);-webkit-background-clip:text;background-clip:text}
+  .tilt::after{background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(111,160,245,.2),transparent 62%)}
+  .cta-band{background:linear-gradient(135deg,#2b62cf 0%,#1f4fbf 55%,#3a76dd 100%)}
 }
 
 @media (max-width:760px){
@@ -183,10 +354,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
   .shots{grid-template-columns:1fr}
   .dl{padding:26px 20px}
   .nav-r a:not(.nav-cta){display:none}
+  #features .grid{grid-template-columns:1fr}
+  #features .card,
+  #features .card:nth-child(4),
+  #features .card:nth-child(5){grid-column:span 1}
 }
 </style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
+
+<div id="progress" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <nav>
   <div class="wrap nav-in">
@@ -204,9 +384,12 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       BOSS智能筛选
     </a>
     <div class="nav-r">
-      <a href="#features">功能</a>
+      <a href="#capabilities">最新能力</a>
+      <a href="#flow">流程</a>
       <a href="#showcase">界面</a>
+      <a href="#faq">FAQ</a>
       <a href="#roadmap">路线图</a>
+      <a href="#contact">联系</a>
       <a class="nav-cta" href="#download">获取应用</a>
     </div>
   </div>
@@ -216,14 +399,12 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
   <div class="wrap">
     <span class="badge"><i></i>v1.0.1 · 通用版</span>
     <h1>AI 招聘筛选，<br>每一句话都<em>有据可查</em></h1>
-    <p class="sub">BOSS 直聘自动招聘助手 —— 判据文件单一真源，机械校验兜底，人机协同闸门。本地运行，数据不出本机。</p>
+    <p class="sub">筛选条件写在一份文件里 · 数字自己算 · 拿不准的留给人 · 本地运行，数据不出本机</p>
     <div class="cta-row">
       <a class="btn btn-p" id="btn-primary" href="#download">下载 macOS 版<span>↓</span></a>
       <a class="btn btn-s" href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">GitHub Releases</a>
     </div>
     <div class="meta">
-      <span>🖥 macOS / Windows</span>
-      <span>🔒 本地运行 · 数据不出本机</span>
       <span>更新于 2026-11-23</span>
     </div>
   </div>
@@ -234,7 +415,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
     <div class="sec-head">
       <div class="kicker">Showcase</div>
       <h2>界面一览</h2>
-      <p>判据、证据、结论同屏呈现——这是「可解释」落地的样子。</p>
+      <p>筛选条件、证据原文、最后结论，都摊在同一屏上</p>
     </div>
     <div class="shots">
       <!-- 模拟图 1：筛选面板（纯 SVG，系统字体渲染；候选人数据为占位演示，待替换真实批次截图） -->
@@ -256,22 +437,22 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
           <g font-family="-apple-system,'PingFang SC',sans-serif">
             <rect x="134" y="88" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
             <circle cx="158" cy="116" r="14" fill="#eef3fe"/><text x="152" y="121" font-size="12" fill="#2f6bf0" font-weight="600">陈</text>
-            <text x="182" y="108" font-size="12.5" fill="#16181d" font-weight="600">陈一诺 · 高级前端</text>
-            <rect x="182" y="116" width="46" height="16" rx="8" fill="#e8f4ec"/><text x="189" y="128" font-size="10" fill="#2c9e5f">通过</text>
-            <text x="368" y="128" font-size="10.5" fill="#8a8f9e">判据 12 · 判据 27</text>
+            <text x="182" y="108" font-size="12.5" fill="#16181d" font-weight="600">陈** · 高级前端</text>
+            <rect x="182" y="116" width="46" height="16" rx="8" fill="#e8f4ec"/><text x="205" y="128" font-size="10" fill="#2c9e5f" text-anchor="middle">通过</text>
+            <text x="446" y="128" font-size="10.5" fill="#8a8f9e" text-anchor="end">判据 8 · 判据 0.11</text>
             <rect x="134" y="152" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
             <circle cx="158" cy="180" r="14" fill="#eef3fe"/><text x="152" y="185" font-size="12" fill="#2f6bf0" font-weight="600">李</text>
-            <text x="182" y="172" font-size="12.5" fill="#16181d" font-weight="600">李知远 · SEO 负责人</text>
-            <rect x="182" y="180" width="58" height="16" rx="8" fill="#fdf3e7"/><text x="189" y="192" font-size="10" fill="#c07f2c">待人工复核</text>
-            <text x="368" y="192" font-size="10.5" fill="#8a8f9e">证据抓取失败 → 转人工</text>
+            <text x="182" y="172" font-size="12.5" fill="#16181d" font-weight="600">李** · 跨境电商运营主管</text>
+            <rect x="182" y="180" width="58" height="16" rx="8" fill="#fdf3e7"/><text x="211" y="192" font-size="10" fill="#c07f2c" text-anchor="middle">待人工复核</text>
+            <text x="446" y="192" font-size="10.5" fill="#8a8f9e" text-anchor="end">证据抓取失败 → 转人工</text>
             <rect x="134" y="216" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
             <circle cx="158" cy="244" r="14" fill="#eef3fe"/><text x="152" y="249" font-size="12" fill="#2f6bf0" font-weight="600">王</text>
-            <text x="182" y="236" font-size="12.5" fill="#16181d" font-weight="600">王梓宁 · 跨境电商运营</text>
-            <rect x="182" y="244" width="46" height="16" rx="8" fill="#fdecec"/><text x="189" y="256" font-size="10" fill="#c04b4b">否决</text>
-            <text x="368" y="256" font-size="10.5" fill="#8a8f9e">判据 8 · 年限按月复算 3.2 年</text>
+            <text x="182" y="236" font-size="12.5" fill="#16181d" font-weight="600">王** · 跨境电商运营</text>
+            <rect x="182" y="244" width="46" height="16" rx="8" fill="#fdecec"/><text x="205" y="256" font-size="10" fill="#c04b4b" text-anchor="middle">否决</text>
+            <text x="446" y="256" font-size="10.5" fill="#8a8f9e" text-anchor="end">判据 35 · 年限按月复算 3.2 年</text>
           </g>
         </svg>
-        <figcaption><b>筛选面板</b> · 每位候选人带结论徽章、判据编号与理由，通过 / 待人工 / 否决一目了然。</figcaption>
+        <figcaption><b>筛选面板</b> · 结论、依据（命中的是哪一条标准）和理由，一屏看完</figcaption>
       </figure>
       <!-- 模拟图 2：简历解析与证据 -->
       <figure class="shot">
@@ -280,26 +461,89 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
           <rect width="460" height="34" fill="#f6f7f9"/>
           <circle cx="18" cy="17" r="4" fill="#f26d6d"/><circle cx="32" cy="17" r="4" fill="#f5c445"/><circle cx="46" cy="17" r="4" fill="#5fc46d"/>
           <g font-family="-apple-system,'PingFang SC',sans-serif">
-            <text x="24" y="66" font-size="13" font-weight="600" fill="#16181d">简历解析 · 陈一诺.pdf</text>
+            <text x="24" y="66" font-size="13" font-weight="600" fill="#16181d">简历解析 · 陈**.pdf</text>
             <rect x="24" y="84" width="412" height="1" fill="#e7e9ee"/>
-            <text x="24" y="112" font-size="11" fill="#8a8f9e">SEO 经验年限</text>
+            <text x="24" y="112" font-size="11" fill="#8a8f9e">目标岗位相关年限</text>
             <text x="150" y="112" font-size="12" fill="#16181d" font-weight="600">4 年 2 个月（按月复算）</text>
             <rect x="150" y="118" width="286" height="16" rx="8" fill="#eef3fe"/>
             <rect x="150" y="118" width="196" height="16" rx="8" fill="#c9dcf9"/>
             <text x="24" y="146" font-size="11" fill="#8a8f9e">证据原句</text>
             <rect x="24" y="156" width="412" height="34" rx="8" fill="#f6f7f9"/>
-            <text x="36" y="172" font-size="10.5" fill="#565b6b">「负责独立站 SEO 团队，2021.09 至今」</text>
+            <text x="36" y="172" font-size="10.5" fill="#565b6b">「负责跨境电商运营，2021.09 至今」</text>
             <text x="24" y="212" font-size="11" fill="#8a8f9e">判据命中</text>
-            <rect x="90" y="200" width="120" height="18" rx="9" fill="#e8f4ec"/><text x="100" y="213" font-size="10.5" fill="#2c9e5f">判据 12 · 通过</text>
-            <rect x="218" y="200" width="120" height="18" rx="9" fill="#e8f4ec"/><text x="228" y="213" font-size="10.5" fill="#2c9e5f">判据 27 · 通过</text>
-            <rect x="346" y="200" width="120" height="18" rx="9" fill="#fdecec"/><text x="356" y="213" font-size="10.5" fill="#c04b4b">判据 8 · 否决</text>
+            <rect x="80" y="200" width="112" height="18" rx="9" fill="#e8f4ec"/><text x="136" y="213" font-size="10.5" fill="#2c9e5f" text-anchor="middle">判据 8 · 通过</text>
+            <rect x="202" y="200" width="112" height="18" rx="9" fill="#e8f4ec"/><text x="258" y="213" font-size="10.5" fill="#2c9e5f" text-anchor="middle">判据 0.11 · 通过</text>
+            <rect x="324" y="200" width="112" height="18" rx="9" fill="#fdecec"/><text x="380" y="213" font-size="10.5" fill="#c04b4b" text-anchor="middle">判据 14 · 否决</text>
             <text x="24" y="252" font-size="11" fill="#8a8f9e">最终结论</text>
             <rect x="90" y="240" width="86" height="22" rx="11" fill="#2f6bf0"/>
-            <text x="112" y="255" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">进入闸门</text>
+            <text x="133" y="255" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">进入闸门</text>
           </g>
         </svg>
-        <figcaption><b>简历解析</b> · 年限按月复算、证据原句高亮、判据命中明细同屏可溯。</figcaption>
+        <figcaption><b>简历解析</b> · 年限重算、证据原文、命中情况同屏可溯</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">Capabilities</div>
+      <h2>程序替 AI 干掉了多少事</h2>
+      <p>标准换过一版：有没有能核实的相关岗位经历是门槛，"做过但没写出来"要能从职责描述里推出来 —— 算得出来的事不让 AI 猜</p>
+    </div>
+
+    <div class="stats rv">
+      <div class="stat tilt"><div class="n"><span data-count="96">0</span><span class="u">%</span></div><div class="l">每条结论<br>都能翻回原文</div></div>
+      <div class="stat tilt"><div class="n"><span data-count="24">0</span><span class="u">条</span></div><div class="l">筛选条件<br>写死在程序里</div></div>
+      <div class="stat tilt"><div class="n"><span data-count="8">0</span><span class="u">类</span></div><div class="l">数字自己算<br>不交给模型</div></div>
+      <div class="stat tilt"><div class="n"><span data-count="1">0</span><span class="u">次</span></div><div class="l">同一个人<br>只打扰一次</div></div>
+    </div>
+    <p class="note rv" style="margin-top:14px">↑ 示意数字，用来说明效果</p>
+
+    <div class="caps rv" style="margin-top:26px">
+      <div class="cap tilt">
+        <span class="no">01</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 9.2h16M4 14.8h16M10.2 3.5 8.4 20.5M16.2 3.5l-1.8 17"/></svg></div>
+        <h4>简历里的数字，程序重新算一遍</h4>
+        <p>简历写「5 年经验」，程序把工作经历逐段加起来重算：跟目标岗位无关的整段不算，实习和空档照扣。对方改过简历投了好几版，就把每版里的同一个数字摆在一起对照，数值对不上就标记出来。</p>
+        <div class="why">跟 AI 给的结论对不上时，程序只标「待人工核实」，不会自己改判</div>
+      </div>
+      <div class="cap tilt">
+        <span class="no">02</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3.6 21.4 20H2.6L12 3.6z"/><path d="M12 9.8v4.4"/><path d="M12 17.2h.01"/></svg></div>
+        <h4>简历和结论打架，程序会指出来</h4>
+        <p>结论写「只做内容侧」，简历里却写着"从0到1搭建店铺、和开发团队排期"——这种前后矛盾的地方会被挑出来标红，等人来看。</p>
+        <div class="why">招聘里漏掉一个好候选人，比多打一个招呼贵得多，所以宁可多挑出错</div>
+      </div>
+      <div class="cap tilt">
+        <span class="no">03</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M14.5 20.5v-1.8a3.6 3.6 0 0 0-3.6-3.6H6.1a3.6 3.6 0 0 0-3.6 3.6v1.8"/><circle cx="8.5" cy="7.4" r="3.6"/><path d="M16.6 11.4l2.1 2.1 3.9-4.2"/></svg></div>
+        <h4>同一个候选人，只打扰一次</h4>
+        <p>对方改了简历再投，程序当成新材料重新评一遍：之前没打过招呼的，达标就打招呼；已经打过招呼的只更新档案，不再发第二条。</p>
+        <div class="why">名单和材料库两处都记着打过招呼，任何一处有记录就不会再发</div>
+      </div>
+      <div class="cap tilt">
+        <span class="no">04</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3.5 4.5h17l-6.6 7.6V19l-3.8 2v-8.9L3.5 4.5z"/></svg></div>
+        <h4>先在卡片上筛一遍，少开简历</h4>
+        <p>推荐列表的卡片上如果看不到相关信号，就直接略过，不点开简历 —— 这一步不花查看额度。</p>
+        <div class="why">一屏十几张卡，通常只有个位数需要真的点开，剩下的在卡片上就跳过了</div>
+      </div>
+      <div class="cap tilt">
+        <span class="no">05</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M16.5 3.5H21V8"/><path d="M3.5 20.5 20.5 3.5"/><path d="M20.5 16v4.5H16"/><path d="M14.8 14.8l5.7 5.7"/><path d="M3.5 3.5l5.7 5.7"/></svg></div>
+        <h4>判断通道出问题，不会空转</h4>
+        <p>某个 AI 通道额度用完或被限流，程序自动换下一个接着判；全都用不了，就跳过这一位，不猜也不硬撑。</p>
+        <div class="why">以前通道一挂，整个批次会白跑一遍、结论还照写，现在这种情况会停下来</div>
+      </div>
+      <div class="cap tilt">
+        <span class="no">06</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M20.5 11.5A8.5 8.5 0 1 1 18.3 6.2"/><path d="M21.5 3.5v6h-6"/></svg></div>
+        <h4>跑完之后，还有下一轮</h4>
+        <p>每批跑完出一份复盘报告：哪条标准命中率高、哪条老把人挡掉、哪些留给了人复核。再把面试结果导进来，命中率就有了外部对照，不用自己感觉。</p>
+        <div class="why">标准该怎么调，看报告改，不用靠猜</div>
+      </div>
     </div>
   </div>
 </section>
@@ -309,57 +553,174 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
     <div class="sec-head">
       <div class="kicker">Features</div>
       <h2>可解释，是筛选系统的底线</h2>
-      <p>不黑箱、不代做判断——每条结论都能追溯到判据编号与证据原句。</p>
+      <p>程序只负责核对，判断权在你手上；每条结论都能翻回原文</p>
     </div>
     <div class="grid">
       <a class="card" href="#showcase">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 1 7 7c0 2.4-1.2 4.2-2.8 5.4-.8.6-1.2 1.5-1.2 2.4V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.2c0-.9-.4-1.8-1.2-2.4A6.97 6.97 0 0 1 5 10a7 7 0 0 1 7-7z"/><path d="M9.5 14.5 11 11l1.5 3.5 1.5-3.5 1 2"/></svg></div>
-        <h3>AI 判据筛选</h3>
-        <p>判据文件单一真源，每条结论带判据编号与证据原句，可解释、可回溯。</p>
-        <div class="scene"><b>典型场景</b>：跑一批评测后，每份简历的通过/否决都能点开看到「判据 12 · 命中原句」。</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3.5 4.5h17l-6.6 7.6V19l-3.8 2v-8.9L3.5 4.5z"/></svg></div>
+        <h3>按条件筛选</h3>
+        <p>筛选条件写在一份文件里，网页试跑和批量跑都用它。</p>
+        <div class="scene"><b>举个例子</b>：点开任一份简历，能看到它是因为哪一条被放行。</div>
       </a>
       <a class="card" href="#showcase">
-        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><circle cx="15.5" cy="13.5" r="4.5"/><path d="M8.5 10.5l1.5 1.5 3-3"/></svg></div>
-        <h3>机械校验</h3>
-        <p>相关年限按月复算、跨版本数据双向对撞——程序做 AI 做不了的校验。</p>
-        <div class="scene"><b>典型场景</b>：简历写「5 年经验」，复算工作经历只有 3 年 2 个月——系统直接标红。</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 9.2h16M4 14.8h16M10.2 3.5 8.4 20.5M16.2 3.5l-1.8 17"/></svg></div>
+        <h3>数字自己核对</h3>
+        <p>年限按月重算、多版简历对撞，这部分不交给模型。</p>
+        <div class="scene"><b>举个例子</b>：简历写 5 年，重算出来只有 3 年 2 个月，直接标红。</div>
       </a>
       <a class="card" href="#download">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 9.5C8 16 5 12.5 5 8V5z"/><path d="M9.5 11.5l2 2 3.5-4"/></svg></div>
-        <h3>人机协同闸门</h3>
-        <p>AI 不可用即失败关闭，验不了的转人工复核，绝不代做判断。</p>
-        <div class="scene"><b>典型场景</b>：AI 服务超时，该批次自动暂停并标记「待人工」，绝不静默放行。</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M14.5 20.5v-1.8a3.6 3.6 0 0 0-3.6-3.6H6.1a3.6 3.6 0 0 0-3.6 3.6v1.8"/><circle cx="8.5" cy="7.4" r="3.6"/><path d="M16.6 11.4l2.1 2.1 3.9-4.2"/></svg></div>
+        <h3>拿不准就交给你</h3>
+        <p>AI 不可用就跳过，验不了的不硬判。</p>
+        <div class="scene"><b>举个例子</b>：AI 超时，这一批停下来标成待人工，不静默放行。</div>
       </a>
       <a class="card" href="#showcase">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/><path d="M16 9l3 3 3-3" transform="translate(-1 -1)"/></svg></div>
-        <h3>批次复盘</h3>
-        <p>判据命中率、否决分布、回流校准报表——从工具进化为系统。</p>
-        <div class="scene"><b>典型场景</b>：每批跑完自动生成复盘报告，命中率低的判据回流校准。</div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20.5h18"/><path d="M6.8 20.5v-6.2M12 20.5V4.8M17.2 20.5v-9.4"/></svg></div>
+        <h3>每批跑完出报告</h3>
+        <p>哪条标准命中率高、哪条老把人挡掉，都写在报告里。</p>
+        <div class="scene"><b>举个例子</b>：命中率最低的那几条，下一轮优先改它。</div>
       </a>
+      <a class="card" href="#capabilities">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M20.5 11.5A8.5 8.5 0 1 1 18.3 6.2"/><path d="M21.5 3.5v6h-6"/></svg></div>
+        <h3>面试结果回填</h3>
+        <p>面试结论导回这批记录，能一路看到一个人。</p>
+        <div class="scene"><b>举个例子</b>：面试完把 CSV 一导，命中率就有了外部对照。</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">How it works</div>
+      <h2>从你设好筛选，到候选人在你面前排队</h2>
+      <p>你只要做两件事：扫码登录、设好筛选条件，剩下交给程序</p>
+    </div>
+    <div class="flow rv">
+      <div class="step tilt"><div class="no">01</div><div>
+        <h4>定岗位与条件</h4>
+        <p>选岗位、写筛选条件。这份文件就是整套判断的标准，网页试跑和批量跑都用它</p>
+        <div class="split"><span class="chip me">你：选岗位 / 写条件</span><span class="chip">程序：读配置，改完即生效</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">02</div><div>
+        <h4>浏览器自检与冷启动</h4>
+        <p>浏览器没开就自己拉起，用的还是你原来的登录状态，<b>不会跳登录页</b></p>
+        <div class="split"><span class="chip">程序：拉起浏览器 / 复用登录态</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">03</div><div>
+        <h4>你设 VIP 筛选，程序等你</h4>
+        <p>你把筛选条件和目标职位设好，程序每 2 秒看一次，条件齐了就开始跑</p>
+        <div class="split"><span class="chip me">你：设筛选 + 选职位</span><span class="chip">程序：检测条件，不替你点</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">04</div><div>
+        <h4>实时读名单</h4>
+        <p>推荐列表是虚拟滚动的，屏幕上同时只有十几张卡，所以每处理一个人之前都重新读一次页面</p>
+        <div class="split"><span class="chip">程序：逐轮重读 DOM</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">05</div><div>
+        <h4>卡片层过滤</h4>
+        <p>卡片上看不到相关信号就直接略过，<b>不点开简历，也不花查看额度</b></p>
+        <div class="split"><span class="chip">程序：只认看得见的文字</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">06</div><div>
+        <h4>打开简历并识别</h4>
+        <p>点开简历弹层 → 截顶段底段两屏拼起来 → OCR。打不开就跳过这一位，<b>不会拿卡片上的摘要凑合</b></p>
+        <div class="split"><span class="chip">程序：点开 / 截屏 / OCR</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">07</div><div>
+        <h4>按条件判定</h4>
+        <p>筛选条件 + 算好的数字一起交给 AI，得出通过 / 待人工 / 否决，并附上依据</p>
+        <div class="split"><span class="chip">程序：数字自己核对</span><span class="chip">AI：给结论和理由</span></div>
+      </div><span class="arrow"></span></div>
+      <div class="step tilt"><div class="no">08</div><div>
+        <h4>打招呼并落盘</h4>
+        <p>只有达标的人才打招呼，已经打过招呼的<b>不会再收到第二条</b>。结果和复盘报告自动存下来</p>
+        <div class="split"><span class="chip">程序：达标才打招呼</span><span class="chip">程序：落盘 + 出复盘报告</span></div>
+      </div><span class="arrow"></span></div>
     </div>
   </div>
 </section>
 
 <section id="roadmap">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="kicker">Roadmap</div>
       <h2>开发路线图</h2>
-      <p>已上线的能力持续打磨，规划中的能力按季推进。</p>
+      <p>已经能用的在继续打磨，还没做的按顺序排队</p>
     </div>
-    <div class="tl">
-      <div class="tl-item done"><h3>v1.0 · 判据筛选 + 机械校验 + 人机协同闸门<span class="tag tag-done">已上线</span></h3>
-        <p>判据文件单一真源、相关年限按月复算、双向对撞、批次复盘报表。</p></div>
-      <div class="tl-item done"><h3>v1.1 · 桌面安装包 + 固定下载站<span class="tag tag-done">已上线</span></h3>
-        <p>macOS / Windows 打包分发，GitHub Releases 永久下载地址。</p></div>
-      <div class="tl-item done"><h3>v1.0.1 · 通用版 + 新手引导<span class="tag tag-done">已上线</span></h3>
-        <p>密钥留空不随包分发、首次启动向导、示例岗位与判据模板、密钥获取图文引导。</p></div>
-      <div class="tl-item"><h3>批量处理<span class="tag tag-plan">设计中</span></h3>
-        <p>一次导入数百份简历，自动分批跑批、断点续跑、失败重试。</p></div>
-      <div class="tl-item"><h3>自定义判据规则<span class="tag tag-plan">规划中</span></h3>
-        <p>在基础判据之上，支持按岗位自定义权重与新增判据，热更新不重装。</p></div>
+    <div class="tl rv">
+      <div class="tl-item done"><h3>起步 · 按条件筛选 + 数字自校<span class="tag tag-done">已上线</span></h3>
+        <p>条件写在一份文件里、年限按月重算、多版简历对撞，AI 用不了就跳过</p></div>
+      <div class="tl-item done"><h3>装成桌面应用<span class="tag tag-done">已上线</span></h3>
+        <p>macOS / Windows 安装包，GitHub Releases 上的地址不会变</p></div>
+      <div class="tl-item done"><h3>网页控制台 · 七个页签<span class="tag tag-done">已上线</span></h3>
+        <p>仪表盘、启动筛选、岗位与条件、运行日志、历史记录、批次与复盘、设置，浏览器里都能改</p></div>
+      <div class="tl-item done"><h3>批量处理 + 复盘报告 + 反馈回流<span class="tag tag-done">已上线</span></h3>
+        <p>每批跑多少人在网页上定，跑完自动出报告，面试结果用 CSV 导回来</p></div>
+      <div class="tl-item done"><h3>当前版本 · 通用版 + 新手引导 + 技术侧清单<span class="tag tag-done">已上线</span></h3>
+        <p>安装包里不带密钥、首次打开有向导、附示例岗位和技术侧清单模板，换岗位只改一份配置</p></div>
+      <div class="tl-item"><h3>图形化自定义条件<span class="tag tag-plan">规划中</span></h3>
+        <p>用界面调每个岗位的权重、加新条件，不用改配置文件</p></div>
+      <div class="tl-item"><h3>数据导出（CSV / Excel）<span class="tag tag-plan">规划中</span></h3>
+        <p>这批的结果和复盘报告一键存成表格</p></div>
       <div class="tl-item"><h3>多语言简历支持<span class="tag tag-plan">规划中</span></h3>
-        <p>英文简历解析与判据对齐，出海岗位直接筛选。<a href="https://github.com/QSCF6-live/QSCF6-live.github.io/issues" target="_blank" rel="noopener">提交需求 →</a></p></div>
+        <p>英文简历能读、条件也能对上。<a href="https://github.com/QSCF6-live/QSCF6-live.github.io/issues" target="_blank" rel="noopener">提交需求 →</a></p></div>
+      <div class="tl-item"><h3>系统内反馈采集 · 内置模型<span class="tag tag-plan">规划中</span></h3>
+        <p>反馈改成在系统里直接填；OCR 和 AI 通道争取不用自己带 Key</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">FAQ</div>
+      <h2>你大概会先问这几个</h2>
+      <p>把最要紧的承诺写在这里。</p>
+    </div>
+    <div class="faq rv">
+      <div class="qa tilt">
+        <h4>会不会给同一个候选人发两次招呼？</h4>
+        <div class="ans"><p>不会，这是写死的规矩。打过招呼的人记在名单（<code>seen.greeted</code>）和材料库两处，任何一处有记录就不会再发。对方重投的新简历只重新评一遍，不重复打扰</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>简历和我的数据会上传到网上吗？</h4>
+        <div class="ans"><p>不会。程序跑在你自己的电脑上，简历截图在本机转成文字，只在请求 AI 时带上当次这一份。<b>安装包不含任何密钥</b>，密钥只存在你本机</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>每天能看多少份简历？招呼额度怎么算？</h4>
+        <div class="ans"><p>招呼额度有<b>每日上限</b>，分几次跑也会累计记着，绝不超额。额度之内先在卡片上筛一遍，一屏名单通常只有个位数需要真的点开</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>AI 判错了怎么办？</h4>
+        <div class="ans"><p>每条结论都能点开看依据。程序只标出疑点、不替你改判：年限对不上、多版简历打架、结论和简历自相矛盾，都会进「待人工核实清单」</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>筛选条件我能自己改吗？</h4>
+        <div class="ans"><p>能，就是改一份文件：<code>config/screening-criteria.md</code>。网页试跑和批量跑读的是同一份，改完不用重装，下一次跑就生效</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>程序会不会乱动我的浏览器？</h4>
+        <div class="ans"><p>只会读页面、点你指定的那张卡、关掉自己开的弹层。<b>不会替你选职位、不会改你的筛选、也不会跳走</b>，你设好的条件全程原样保留</p></div>
+      </div>
+      <div class="qa tilt">
+        <h4>要一直开着电脑吗？中途能停吗？</h4>
+        <div class="ans"><p>要，程序得控制真实的浏览器页面。中途随时可以停：处理过的记录会存下来，下次接着跑，<b>不会重复打招呼</b></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-band rv">
+      <h2>先聊聊也行</h2>
+      <p>装不上、想改筛选条件，或者只是想先看看合不合适，都可以先来问一句</p>
+      <div class="cta-row">
+        <a class="btn btn-p" href="#contact">看看联系方式<span>→</span></a>
+        <a class="btn btn-s" href="#faq">先看常见问题</a>
+      </div>
     </div>
   </div>
 </section>
@@ -374,17 +735,93 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
     <div class="dl">
       <div class="dl-top">
         <h3 id="dl-title">macOS</h3>
-        <div class="seg">
+        <div class="seg" id="seg">
+          <span class="seg-thumb" id="seg-thumb"></span>
           <button id="seg-mac" class="on" onclick="pick('mac')">macOS</button>
           <button id="seg-win" onclick="pick('win')">Windows</button>
         </div>
       </div>
       <div id="dl-body"></div>
       <div class="tips">
-        <b>首次使用</b>：安装后打开应用，会弹出「第一次使用」向导，按 4 步（装好 → 配密钥 → 配岗位 → 开始筛）走一遍即可，约 10 分钟。<br>
-        <b>密钥去哪拿</b>：应用内「系统设置」页有图文卡片，点开就是对应控制台链接；密钥只存在你自己电脑的配置文件里，不随安装包分发给别人。<br>
-        <b>macOS 提示</b>：应用未做付费签名，首次打开如提示「无法验证开发者」，请右键 → 打开，或在「系统设置 → 隐私与安全性」中允许。<br>
-        <b>Windows 提示</b>：安装时如被杀毒软件或 SmartScreen 提示「未知发布者」，请选择「仍要运行」——应用未做付费签名。
+        <b>首次使用</b>：安装后按应用内向导走 4 步（装好 → 配密钥 → 配岗位 → 开始筛），约 10 分钟<br>
+        <b>密钥去哪拿</b>：应用内「系统设置」页有图文卡片，点开就是对应控制台链接；密钥只存在你本机<br>
+        <b>macOS 提示</b>：应用未做付费签名，如提示「无法验证开发者」，请右键 → 打开，或在「系统设置 → 隐私与安全性」中允许<br>
+        <b>Windows 提示</b>：如被杀毒软件或 SmartScreen 提示「未知发布者」，请选择「仍要运行」。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">Contact</div>
+      <h2>有问题，直接找我</h2>
+      <p>装不上、想改筛选条件、想聊聊能不能改成你们公司的规矩，都可以来找我</p>
+    </div>
+    <div class="cgrid rv">
+      <div class="ccard tilt">
+        <div class="ic">
+          <svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+        </div>
+        <h3>GitHub 主页</h3>
+        <div class="val"><a href="https://github.com/QSCF6-live/QSCF6-live.github.io" target="_blank" rel="noopener">QSCF6-live</a></div>
+        <div class="note">问题反馈和版本更新都在这里</div>
+        <div class="cacts">
+          <a class="cbtn" href="https://github.com/QSCF6-live/QSCF6-live.github.io" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            打开主页
+          </a>
+        </div>
+      </div>
+
+      <div class="ccard tilt">
+        <div class="ic">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.8-.9L3 20.5l1.9-5.2a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5A8.5 8.5 0 0 1 21 11.5z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>
+        </div>
+        <h3>微信</h3>
+        <div class="val">a1207379244</div>
+        <div class="note">加好友时备注一下来意</div>
+        <div class="cacts">
+          <button class="cbtn" type="button" data-copy="a1207379244">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            复制微信号
+          </button>
+        </div>
+      </div>
+
+      <div class="ccard tilt">
+        <div class="ic">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+        </div>
+        <h3>QQ</h3>
+        <div class="val">1207379244</div>
+        <div class="note">临时消息发这里也行</div>
+        <div class="cacts">
+          <button class="cbtn" type="button" data-copy="1207379244">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            复制 QQ 号
+          </button>
+        </div>
+      </div>
+
+      <div class="ccard tilt">
+        <div class="ic">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,6 12,13 22,6"/></svg>
+        </div>
+        <h3>邮箱</h3>
+        <div class="val">a1207379244@163.com</div>
+        <div class="note">正式沟通建议走邮箱</div>
+        <div class="cacts">
+          <button class="cbtn" type="button" data-copy="a1207379244@163.com">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            复制
+          </button>
+          <a class="cbtn" href="mailto:a1207379244@163.com">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,6 12,13 22,6"/></svg>
+            写信
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -392,7 +829,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
 
 <footer>
   <div class="wrap foot-in">
-    <span class="brand" style="font-size:13px"><svg viewBox="0 0 64 64" style="width:16px;height:16px;display:inline;vertical-align:-3px"><rect width="64" height="64" rx="15" fill="#2f6bf0"/><path d="M19 19h26l-8.5 9.5v9.5L26 44V28.5z" fill="#fff" opacity=".96"/><circle cx="45" cy="44" r="9" fill="#fff"/><path d="M41 44l3 3 5.5-6" stroke="#2f6bf0" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> BOSS智能筛选</span>
+    <span class="brand" style="font-size:13px"><svg viewBox="0 0 64 64" style="width:16px;height:16px;display:inline;vertical-align:-3px"><defs><linearGradient id="lgf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8cf0"/><stop offset="1" stop-color="#1f56d6"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#lgf)"/><path d="M19 19h26l-8.5 9.5v9.5L26 44V28.5z" fill="#fff" opacity=".96"/><circle cx="45" cy="44" r="9" fill="#fff"/><path d="M41 44l3 3 5.5-6" stroke="#2f6bf0" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> BOSS智能筛选</span>
     <div class="foot-links">
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">Releases</a>
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io" target="_blank" rel="noopener">GitHub</a>
@@ -412,7 +849,22 @@ const FILES = {
     primary:{ href:REL+'/BOSS.1.0.1-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'92 MB', pending:false } }
 };
 let os = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac';
-function pick(o){ os=o; render(); }
+function pick(o){
+  if(o === os) return;
+  os = o;
+  const body = document.getElementById('dl-body');
+  body.classList.add('sw');                 // 先淡出，避免内容硬跳
+  setTimeout(()=>{ render(); body.classList.remove('sw'); }, 190);
+  render();                                  // 立即更新按钮态，滑块随后到位
+}
+/* 滑块贴合当前按钮（两个标签宽度不同，按实际位置算） */
+function moveThumb(){
+  const btn = document.getElementById(os === 'win' ? 'seg-win' : 'seg-mac');
+  const th = document.getElementById('seg-thumb');
+  if(!btn || !th) return;
+  th.style.width = btn.offsetWidth + 'px';
+  th.style.transform = 'translateX(' + (btn.offsetLeft - 3) + 'px)';
+}
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function render(){
   document.getElementById('seg-mac').classList.toggle('on', os==='mac');
@@ -430,8 +882,301 @@ function render(){
          <div class="sz">${esc(p.primary.sz)}</div></a>`;
   if(p.alt) html += `<a class="dl-alt" href="${esc(p.alt.href)}" download><span>${esc(p.alt.t)}</span><span>${esc(p.alt.sz)}</span></a>`;
   body.innerHTML = html;
+  moveThumb();
 }
 render();
+window.addEventListener('resize', moveThumb);
+
+/* ══ 滚动特效：进度条 / 错峰揭示 / 数字滚动 / 3D 微倾 / 手风琴 / 导航高亮 ══ */
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 1) 顶部滚动进度条 */
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    if(!bar) return;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
+    bar.style.width = (p * 100).toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  /* 1.5) 交互背景：鼠标可拨动的点阵 + 点击涟漪 */
+  (function(){
+    var cv = document.getElementById('fx');
+    if(!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var W = 0, H = 0, cols = 0, rows = 0, pts = [];
+    var SP = 46, R = 132, LINK = 112;
+    var mouse = {x:-999, y:-999, on:false};
+    var ripples = [];
+    var RGB = '47,107,240';
+
+    function palette(){ RGB = mqDark.matches ? '104,158,248' : '47,107,240'; }
+    palette();
+
+    function build(){
+      cols = Math.ceil(W/SP) + 1; rows = Math.ceil(H/SP) + 1;
+      pts = new Array(cols*rows);
+      for(var j=0;j<rows;j++) for(var i=0;i<cols;i++){
+        var bx = i*SP + (j % 2 ? SP/2 : 0), by = j*SP;
+        pts[j*cols+i] = {bx:bx, by:by, x:bx, y:by};
+      }
+    }
+    function resize(){
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.max(1, Math.floor(W*dpr));
+      cv.height = Math.max(1, Math.floor(H*dpr));
+      cv.style.width = W+'px'; cv.style.height = H+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      build();
+      if(reduce) draw(0);
+    }
+
+    function link(a, b){
+      var dx = a.x-b.x, dy = a.y-b.y, d = Math.sqrt(dx*dx+dy*dy);
+      if(d > LINK) return;
+      ctx.strokeStyle = 'rgba('+RGB+','+(0.11*(1-d/LINK)).toFixed(3)+')';
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    }
+
+    function draw(t){
+      ctx.clearRect(0,0,W,H);
+      var time = t*0.001, i, j, p, dx, dy, d, f, ox, oy, near;
+
+      for(var ri=ripples.length-1; ri>=0; ri--){
+        var rp = ripples[ri], age = t - rp.t0;
+        if(age > 950){ ripples.splice(ri,1); continue; }
+        rp.r = age * 0.42; rp.a = 1 - age/950;
+      }
+
+      /* 点：鼠标排斥 + 点击涟漪 + 轻微呼吸波 */
+      for(i=0;i<pts.length;i++){
+        p = pts[i]; ox = 0; oy = 0;
+        if(mouse.on){
+          dx = p.x-mouse.x; dy = p.y-mouse.y; d = Math.sqrt(dx*dx+dy*dy);
+          if(d < R && d > 0.01){ f = 1 - d/R; ox += dx/d*f*30; oy += dy/d*f*30; }
+        }
+        for(j=0;j<ripples.length;j++){
+          var r2 = ripples[j];
+          dx = p.x-r2.x; dy = p.y-r2.y; d = Math.sqrt(dx*dx+dy*dy);
+          var gap = Math.abs(d - r2.r);
+          if(gap < 48 && d > 0.01){ f = (1 - gap/48)*r2.a*16; ox += dx/d*f; oy += dy/d*f; }
+        }
+        var w = Math.sin(time*0.7 + p.bx*0.012 + p.by*0.008)*2.2;
+        p.x = p.bx + ox + w*0.6;
+        p.y = p.by + oy + w*0.4;
+      }
+
+      /* 连线 */
+      ctx.lineWidth = 1;
+      for(j=0;j<rows;j++) for(i=0;i<cols;i++){
+        var idx = j*cols+i;
+        if(i+1 < cols) link(pts[idx], pts[idx+1]);
+        if(j+1 < rows) link(pts[idx], pts[idx+cols]);
+      }
+
+      /* 点 */
+      for(i=0;i<pts.length;i++){
+        p = pts[i]; near = 0;
+        if(mouse.on){
+          dx = p.x-mouse.x; dy = p.y-mouse.y; d = Math.sqrt(dx*dx+dy*dy);
+          if(d < R) near = 1 - d/R;
+        }
+        ctx.fillStyle = 'rgba('+RGB+','+(0.15 + near*0.72).toFixed(3)+')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.1 + near*1.8, 0, 6.2832);
+        ctx.fill();
+      }
+
+      /* 鼠标光晕 */
+      if(mouse.on){
+        var g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 270);
+        g.addColorStop(0, 'rgba('+RGB+',0.15)');
+        g.addColorStop(1, 'rgba('+RGB+',0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(mouse.x-270, mouse.y-270, 540, 540);
+      }
+    }
+
+    var raf = 0;
+    function frame(t){ draw(t); raf = requestAnimationFrame(frame); }
+    function start(){ if(!raf && !reduce) raf = requestAnimationFrame(frame); }
+    function stop(){ if(raf){ cancelAnimationFrame(raf); raf = 0; } }
+
+    window.addEventListener('pointermove', function(e){
+      mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true;
+    }, {passive:true});
+    window.addEventListener('pointerleave', function(){ mouse.on = false; });
+    document.addEventListener('mouseleave', function(){ mouse.on = false; });
+    window.addEventListener('click', function(e){
+      if(reduce) return;
+      ripples.push({x:e.clientX, y:e.clientY, t0:performance.now(), r:0, a:1});
+      if(ripples.length > 4) ripples.shift();
+    });
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    var onScheme = function(){ palette(); if(reduce) draw(0); };
+    if(mqDark.addEventListener) mqDark.addEventListener('change', onScheme);
+    else if(mqDark.addListener) mqDark.addListener(onScheme);
+
+    resize();
+    start();
+  })();
+
+  /* 2) 错峰揭示：给成组的卡片挂上 .stg 并按序排延迟 */
+  var groups = [].slice.call(document.querySelectorAll('.stats, .caps, .flow, .faq, .tl, .grid, .shots, .cgrid'));
+  groups.forEach(function(box){
+    if(reduce) return;   /* 减少动态效果：不做错峰淡入，直接可见 */
+    [].slice.call(box.children).forEach(function(el, i){
+      el.classList.add('stg');
+      el.style.setProperty('--d', (i * 70) + 'ms');
+    });
+  });
+
+  var hasIO = 'IntersectionObserver' in window;
+  if(hasIO){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('in');
+        [].slice.call(e.target.children).forEach(function(c){ c.classList.add('in'); });
+        io.unobserve(e.target);
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -6% 0px'});
+    [].slice.call(document.querySelectorAll('.rv')).concat(groups).forEach(function(el){ io.observe(el); });
+
+    /* 3) 指标数字滚动 */
+    var numIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        countUp(e.target);
+        numIO.unobserve(e.target);
+      });
+    }, {threshold:0.4});
+    [].slice.call(document.querySelectorAll('[data-count]')).forEach(function(el){ numIO.observe(el); });
+  } else {
+    [].slice.call(document.querySelectorAll('.rv')).forEach(function(el){ el.classList.add('in'); });
+    [].slice.call(document.querySelectorAll('[data-count]')).forEach(function(el){ el.textContent = el.dataset.count; });
+  }
+
+  function countUp(el){
+    var target = parseFloat(el.dataset.count) || 0;
+    if(reduce){ el.textContent = target; return; }
+    var dur = 1200, t0 = performance.now();
+    function frame(t){
+      var k = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e);
+      if(k < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* 4) 卡片光标聚光 + 3D 微倾 */
+  if(!reduce){
+    [].slice.call(document.querySelectorAll('.tilt')).forEach(function(el){
+      el.addEventListener('pointermove', function(e){
+        var r = el.getBoundingClientRect();
+        if(!r.width || !r.height) return;
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+        el.style.setProperty('--ry', ((x - 0.5) * 7).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((0.5 - y) * 6).toFixed(2) + 'deg');
+      });
+      el.addEventListener('pointerleave', function(){
+        el.style.setProperty('--rx','0deg');
+        el.style.setProperty('--ry','0deg');
+      });
+    });
+  }
+
+  /* 5) FAQ 手风琴（单开，带高度动画 + 键盘可达） */
+  var openQA = null;
+  function setOpen(qa, open){
+    var h = qa.querySelector('h4'), ans = qa.querySelector('.ans');
+    if(!h || !ans) return;
+    qa.classList.toggle('open', open);
+    h.setAttribute('aria-expanded', open ? 'true' : 'false');
+    ans.style.maxHeight = open ? (ans.scrollHeight + 'px') : '0px';
+  }
+  [].slice.call(document.querySelectorAll('.qa')).forEach(function(qa){
+    var h = qa.querySelector('h4'), ans = qa.querySelector('.ans');
+    if(!h || !ans) return;
+    h.setAttribute('role','button');
+    h.setAttribute('tabindex','0');
+    h.setAttribute('aria-expanded','false');
+    function toggle(){
+      var willOpen = !qa.classList.contains('open');
+      if(openQA && openQA !== qa) setOpen(openQA, false);
+      setOpen(qa, willOpen);
+      openQA = willOpen ? qa : null;
+    }
+    h.addEventListener('click', toggle);
+    h.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){ e.preventDefault(); toggle(); }
+    });
+  });
+  window.addEventListener('resize', function(){
+    if(openQA) setOpen(openQA, true);
+  });
+
+  /* 6) 导航当前区块高亮 */
+  var links = [].slice.call(document.querySelectorAll('.nav-r a[href^="#"]'));
+  var secs = links.map(function(a){
+    return document.querySelector(a.getAttribute('href'));
+  }).filter(Boolean);
+  if(hasIO && secs.length){
+    var navIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        links.forEach(function(a){
+          a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id);
+        });
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    secs.forEach(function(s){ navIO.observe(s); });
+  }
+
+  /* 7) 联系方式：点击复制 + 轻提示 */
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function say(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 1900);
+  }
+  function copyText(txt){
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(
+        function(){ say('已复制：' + txt); },
+        function(){ say('复制没成功，麻烦手动选中复制'); });
+      return;
+    }
+    /* 非安全上下文（本地 http 打开等）走老办法 */
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.setAttribute('readonly','');
+    ta.style.cssText = 'position:fixed;top:-1000px;left:0;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try{ ok = document.execCommand('copy'); }catch(err){ ok = false; }
+    document.body.removeChild(ta);
+    say(ok ? '已复制：' + txt : '复制没成功，麻烦手动选中复制');
+  }
+  [].slice.call(document.querySelectorAll('[data-copy]')).forEach(function(btn){
+    btn.addEventListener('click', function(){ copyText(btn.getAttribute('data-copy')); });
+  });
+})();
 </script>
 </body>
 </html>

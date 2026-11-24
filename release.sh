@@ -36,7 +36,7 @@ mb() { python3 -c "import sys;print(f'{int(sys.argv[1])/1048576:.0f} MB')" "$1";
 check_env() {
   local f="$1"
   case "$f" in
-    *.zip) if unzip -l "$f" 2>/dev/null | grep -qi '\.env'; then echo "❌ $f 内含 .env，禁止发布！" >&2; exit 1; fi;;
+    *.zip) if unzip -l "$f" 2>/dev/null | grep -qE '(^|[[:space:]/])(\.env)$'; then echo "❌ $f 内含 .env，禁止发布！" >&2; exit 1; fi;;
     *.dmg) echo "  (dmg 跳过自动扫描，请确保构建时用了 .env.hidden-build 流程)";;
     *.exe) echo "  (exe 跳过自动扫描，请确认 win-unpacked 无 .env)";;
   esac
@@ -94,11 +94,12 @@ fi
 
 # ---------- 4. 页面版本号替换 ----------
 echo "== 更新页面版本号 → $VER =="
-python3 - "$PAGE" "$VER" "$TODAY" <<'PYEOF'
+python3 - "$PAGE" "$VER" "$TODAY" "${5:-通用版}" <<'PYEOF'
 import re, sys
 page, ver, today = sys.argv[1], sys.argv[2], sys.argv[3]
+TAG_SUFFIX = sys.argv[4] if len(sys.argv) > 4 else "通用版"
 src = open(page, encoding="utf-8").read()
-src, n1 = re.subn(r'v\d+\.\d+\.\d+ · 正式发布', f'v{ver} · 正式发布', src)
+src, n1 = re.subn(r'v\d+\.\d+\.\d+ · [^<"]+', f'v{ver} · {TAG_SUFFIX}', src)
 src, n2 = re.subn(r'© \d{4} BOSS智能筛选 · v[\d.]+', f'© 2026 BOSS智能筛选 · v{ver}', src)
 src, n3 = re.subn(r'releases/download/v[\d.]+', f'releases/download/v{ver}', src)
 src, n4 = re.subn(r'BOSS\.\d+\.\d+\.\d+', f'BOSS.{ver}', src)
