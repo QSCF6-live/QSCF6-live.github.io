@@ -8,18 +8,19 @@
 set -euo pipefail
 
 VER=""
-DMG=""; ZIP=""; EXE=""
+DMG=""; ZIP=""; EXE=""; SUFFIX=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dmg) DMG="$2"; shift 2;;
     --zip) ZIP="$2"; shift 2;;
     --exe) EXE="$2"; shift 2;;
+    --suffix) SUFFIX="$2"; shift 2;;
     *) if [[ -z "$VER" ]]; then VER="$1"; shift; else echo "未知参数: $1" >&2; exit 1; fi;;
   esac
 done
 
 if [[ ! "$VER" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  echo "用法: $0 <版本号 X.Y.Z> [--dmg 文件] [--zip 文件] [--exe 文件]"; exit 1
+  echo "用法: $0 <版本号 X.Y.Z> [--dmg 文件] [--zip 文件] [--exe 文件] [--suffix '版本后缀文字']"; exit 1
 fi
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -94,10 +95,10 @@ fi
 
 # ---------- 4. 页面版本号替换 ----------
 echo "== 更新页面版本号 → $VER =="
-python3 - "$PAGE" "$VER" "$TODAY" "${5:-通用版}" <<'PYEOF'
+python3 - "$PAGE" "$VER" "$TODAY" "$SUFFIX" <<'PYEOF'
 import re, sys
 page, ver, today = sys.argv[1], sys.argv[2], sys.argv[3]
-TAG_SUFFIX = sys.argv[4] if len(sys.argv) > 4 else "通用版"
+TAG_SUFFIX = sys.argv[4] if len(sys.argv) > 4 and sys.argv[4] else "通用版"
 src = open(page, encoding="utf-8").read()
 src, n1 = re.subn(r'v\d+\.\d+\.\d+ · [^<"]+', f'v{ver} · {TAG_SUFFIX}', src)
 src, n2 = re.subn(r'© \d{4} BOSS智能筛选 · v[\d.]+', f'© 2026 BOSS智能筛选 · v{ver}', src)
