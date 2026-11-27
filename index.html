@@ -411,7 +411,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
 
 <header class="hero">
   <div class="wrap">
-    <span class="badge"><i></i>v1.0.2 · 通用版 + 技术侧清单</span>
+    <span class="badge"><i></i>v1.0.3 · 通用版 + 技术侧清单</span>
     <h1>AI 招聘筛选，<br>每一句话都<em>有据可查</em></h1>
     <p class="sub">筛选条件写在一份文件里 · 数字自己算 · 拿不准的留给人 · 本地运行，数据不出本机</p>
     <div class="cta-row">
@@ -419,7 +419,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       <a class="btn btn-s" href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">GitHub Releases</a>
     </div>
     <div class="meta">
-      <span>更新于 2026-11-24</span>
+      <span>更新于 2026-11-27</span>
     </div>
   </div>
 </header>
@@ -429,71 +429,174 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
     <div class="sec-head">
       <div class="kicker">Showcase</div>
       <h2>界面一览</h2>
-      <p>筛选条件、证据原文、最后结论，都摊在同一屏上</p>
+      <p>左边下一句指令，右边看程序怎么一步步跑完</p>
     </div>
     <div class="shots">
       <!-- 模拟图 1：筛选面板（纯 SVG，系统字体渲染；候选人数据为占位演示，待替换真实批次截图） -->
+      <!-- 模拟图 1：工作台全景（纯 SVG 手绘，岗位与数据均为占位示意） -->
       <figure class="shot">
-        <svg viewBox="0 0 460 300" role="img" aria-label="筛选面板示意">
+        <svg viewBox="0 0 460 300" role="img" aria-label="工作台示意：左边下指令，右边看过程">
           <rect width="460" height="300" fill="#ffffff"/>
-          <rect width="460" height="34" fill="#f6f7f9"/>
-          <circle cx="18" cy="17" r="4" fill="#f26d6d"/><circle cx="32" cy="17" r="4" fill="#f5c445"/><circle cx="46" cy="17" r="4" fill="#5fc46d"/>
-          <rect x="0" y="34" width="118" height="266" fill="#f6f7f9"/>
-          <rect x="14" y="50" width="90" height="9" rx="4.5" fill="#2f6bf0" opacity=".85"/>
-          <rect x="14" y="72" width="76" height="6" rx="3" fill="#d9dce3"/>
-          <rect x="14" y="88" width="84" height="6" rx="3" fill="#d9dce3"/>
-          <rect x="14" y="104" width="60" height="6" rx="3" fill="#d9dce3"/>
-          <rect x="14" y="128" width="76" height="6" rx="3" fill="#e4e6ea"/>
-          <rect x="14" y="144" width="68" height="6" rx="3" fill="#e4e6ea"/>
-          <rect x="134" y="50" width="312" height="20" rx="6" fill="#eef3fe"/>
-          <rect x="144" y="56" width="180" height="8" rx="4" fill="#9db6f0"/>
-          <!-- 候选行 -->
-          <g font-family="-apple-system,'PingFang SC',sans-serif">
-            <rect x="134" y="88" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
-            <circle cx="158" cy="116" r="14" fill="#eef3fe"/><text x="152" y="121" font-size="12" fill="#2f6bf0" font-weight="600">陈</text>
-            <text x="182" y="108" font-size="12.5" fill="#16181d" font-weight="600">陈** · 高级前端</text>
-            <rect x="182" y="116" width="46" height="16" rx="8" fill="#e8f4ec"/><text x="205" y="128" font-size="10" fill="#2c9e5f" text-anchor="middle">通过</text>
-            <text x="446" y="128" font-size="10.5" fill="#8a8f9e" text-anchor="end">判据 8 · 判据 0.11</text>
-            <rect x="134" y="152" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
-            <circle cx="158" cy="180" r="14" fill="#eef3fe"/><text x="152" y="185" font-size="12" fill="#2f6bf0" font-weight="600">李</text>
-            <text x="182" y="172" font-size="12.5" fill="#16181d" font-weight="600">李** · 跨境电商运营主管</text>
-            <rect x="182" y="180" width="58" height="16" rx="8" fill="#fdf3e7"/><text x="211" y="192" font-size="10" fill="#c07f2c" text-anchor="middle">待人工复核</text>
-            <text x="446" y="192" font-size="10.5" fill="#8a8f9e" text-anchor="end">证据抓取失败 → 转人工</text>
-            <rect x="134" y="216" width="312" height="56" rx="10" fill="#fff" stroke="#e7e9ee"/>
-            <circle cx="158" cy="244" r="14" fill="#eef3fe"/><text x="152" y="249" font-size="12" fill="#2f6bf0" font-weight="600">王</text>
-            <text x="182" y="236" font-size="12.5" fill="#16181d" font-weight="600">王** · 跨境电商运营</text>
-            <rect x="182" y="244" width="46" height="16" rx="8" fill="#fdecec"/><text x="205" y="256" font-size="10" fill="#c04b4b" text-anchor="middle">否决</text>
-            <text x="446" y="256" font-size="10.5" fill="#8a8f9e" text-anchor="end">判据 35 · 年限按月复算 3.2 年</text>
+          <!-- 浏览器外框 -->
+          <rect width="460" height="26" fill="#f6f7f9"/>
+          <circle cx="16" cy="13" r="4" fill="#f26d6d"/><circle cx="30" cy="13" r="4" fill="#f5c445"/><circle cx="44" cy="13" r="4" fill="#5fc46d"/>
+          <rect x="64" y="8" width="108" height="10" rx="5" fill="#e7e9ee"/>
+          <!-- 应用顶栏 -->
+          <rect y="26" width="460" height="26" fill="#fbfcfd"/>
+          <line x1="0" y1="51.5" x2="460" y2="51.5" stroke="#e6e9ef"/>
+          <rect x="12" y="33" width="12" height="12" rx="3.5" fill="#2f6bf0"/>
+          <path d="M14.4 35.4h7.2l-2.7 3.1v2.4l-1.8 1.1v-3.5z" fill="#fff"/>
+          <text x="30" y="42.5" font-size="9" font-weight="600" fill="#16181d">智能筛选</text>
+          <circle cx="76" cy="39" r="3" fill="#07a35c"/>
+          <text x="83" y="42" font-size="8" fill="#8a8f9e">实时连接</text>
+          <rect x="402" y="35" width="46" height="8" rx="4" fill="#eef0f4"/>
+          <!-- 左侧导航 -->
+          <rect y="52" width="92" height="248" fill="#f6f7f9"/>
+          <line x1="92" y1="52" x2="92" y2="300" stroke="#e6e9ef"/>
+          <rect x="8" y="62" width="76" height="16" rx="7" fill="#e8f0fe"/>
+          <path d="M14 68h9l-3.3 3.7v2.6l-2.2 1.3v-3.9z" fill="#2f6bf0"/>
+          <text x="29" y="73.5" font-size="8" font-weight="600" fill="#2f6bf0">工作台</text>
+          <g fill="#d9dce3">
+            <rect x="14" y="90" width="9" height="9" rx="2"/><rect x="29" y="92" width="24" height="5" rx="2.5"/>
+            <rect x="14" y="110" width="9" height="9" rx="2"/><rect x="29" y="112" width="32" height="5" rx="2.5"/>
+            <rect x="14" y="130" width="9" height="9" rx="2"/><rect x="29" y="132" width="28" height="5" rx="2.5"/>
+            <rect x="14" y="150" width="9" height="9" rx="2"/><rect x="29" y="152" width="36" height="5" rx="2.5"/>
+            <rect x="14" y="170" width="9" height="9" rx="2"/><rect x="29" y="172" width="20" height="5" rx="2.5"/>
           </g>
+          <!-- 左：命令面板 -->
+          <rect x="100" y="60" width="156" height="232" rx="12" fill="#ffffff" stroke="#e6e9ef"/>
+          <path d="M106 71h9l-3.3 3.7v2.6l-2.2 1.3v-3.9z" fill="none" stroke="#2f6bf0" stroke-width="1.3" stroke-linejoin="round"/>
+          <text x="119" y="78" font-size="9" font-weight="700" fill="#10131a">命令面板</text>
+          <line x1="100" y1="88" x2="256" y2="88" stroke="#e6e9ef"/>
+          <text x="112" y="102" font-size="7" fill="#8b95a3">任务起点</text>
+          <rect x="204" y="93" width="40" height="12" rx="6" fill="#ffffff" stroke="#e6e9ef"/>
+          <text x="224" y="101.5" font-size="6.5" fill="#5a6472" text-anchor="middle">全部启动</text>
+          <rect x="112" y="108" width="132" height="20" rx="7" fill="#f7f8fa" stroke="#e6e9ef"/>
+          <text x="120" y="121" font-size="7.5" fill="#10131a">前端工程师</text>
+          <rect x="226" y="112" width="14" height="12" rx="5" fill="#eef3fe" stroke="#c3d4fb"/>
+          <text x="233" y="120.5" font-size="6.5" fill="#2f6bf0" text-anchor="middle">跑</text>
+          <!-- 对话气泡 -->
+          <circle cx="118" cy="150" r="8" fill="#2f6bf0"/>
+          <text x="118" y="152.5" font-size="7" font-weight="700" fill="#ffffff" text-anchor="middle">AI</text>
+          <rect x="132" y="136" width="112" height="30" rx="9" fill="#ffffff" stroke="#e6e9ef"/>
+          <text x="140" y="148" font-size="7" fill="#5a6472">要跑哪个岗位，直接说：</text>
+          <text x="140" y="159" font-size="7" fill="#5a6472">也可以点下面的快捷按钮。</text>
+          <!-- 快捷 chips -->
+          <g fill="#f7f8fa" stroke="#e6e9ef">
+            <rect x="112" y="174" width="30" height="12" rx="6"/>
+            <rect x="146" y="174" width="24" height="12" rx="6"/>
+            <rect x="174" y="174" width="32" height="12" rx="6"/>
+            <rect x="210" y="174" width="26" height="12" rx="6"/>
+          </g>
+          <g font-size="6.5" fill="#5a6472" text-anchor="middle">
+            <text x="127" y="182">全部启动</text>
+            <text x="158" y="182">停止</text>
+            <text x="190" y="182">快速筛选</text>
+            <text x="223" y="182">看复盘</text>
+          </g>
+          <!-- 输入框 -->
+          <rect x="112" y="268" width="112" height="18" rx="8" fill="#f7f8fa" stroke="#e6e9ef"/>
+          <text x="120" y="280" font-size="7" fill="#8b95a3">说点什么：跑前端岗位…</text>
+          <rect x="228" y="268" width="16" height="18" rx="6" fill="#2f6bf0"/>
+          <path d="M233 277h7M237 274l3 3-3 3" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- 右：过程流 -->
+          <rect x="264" y="60" width="188" height="232" rx="12" fill="#ffffff" stroke="#e6e9ef"/>
+          <path d="M274 70h9M274 73.5h6M274 77h7.5" fill="none" stroke="#2f6bf0" stroke-width="1.3" stroke-linecap="round"/>
+          <text x="288" y="78" font-size="9" font-weight="700" fill="#10131a">过程流</text>
+          <rect x="422" y="68" width="20" height="12" rx="5" fill="#f7f8fa"/>
+          <text x="432" y="76.5" font-size="6.5" fill="#5a6472" text-anchor="middle">清空</text>
+          <line x1="264" y1="88" x2="452" y2="88" stroke="#e6e9ef"/>
+          <!-- 步骤 1 -->
+          <rect x="276" y="96" width="164" height="28" rx="8" fill="#ffffff" stroke="#eef0f2"/>
+          <rect x="276" y="96" width="3" height="28" rx="1.5" fill="#2f6bf0"/>
+          <text x="288" y="112" font-size="7.5" fill="#16181d">已启动：前端工程师</text>
+          <text x="432" y="112" font-size="6.5" fill="#8b95a3" text-anchor="end">09:24</text>
+          <text x="288" y="121" font-size="6" fill="#2f6bf0">原始输出</text>
+          <!-- 步骤 2 -->
+          <rect x="276" y="130" width="164" height="28" rx="8" fill="#ffffff" stroke="#eef0f2"/>
+          <rect x="276" y="130" width="3" height="28" rx="1.5" fill="#c3d4fb"/>
+          <text x="288" y="146" font-size="7.5" fill="#16181d">筛选条件已加载</text>
+          <text x="432" y="146" font-size="6.5" fill="#8b95a3" text-anchor="end">09:24</text>
+          <text x="288" y="155" font-size="6" fill="#2f6bf0">原始输出</text>
+          <!-- 步骤 3：带代码块 -->
+          <rect x="276" y="164" width="164" height="62" rx="8" fill="#ffffff" stroke="#eef0f2"/>
+          <rect x="276" y="164" width="3" height="62" rx="1.5" fill="#07a35c"/>
+          <rect x="286" y="171" width="13" height="13" rx="4" fill="#e8f8ee"/>
+          <path d="M289.5 177.5l2 2 4-4.5" fill="none" stroke="#07a35c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="304" y="180" font-size="7.5" fill="#16181d">评估通过 · 82 分</text>
+          <text x="432" y="180" font-size="6.5" fill="#8b95a3" text-anchor="end">09:24</text>
+          <text x="288" y="190" font-size="6" fill="#2f6bf0">代码 +3 行</text>
+          <rect x="286" y="194" width="146" height="26" rx="6" fill="#0f1420"/>
+          <text x="293" y="203" font-size="5.6" fill="#7fb4ff" font-family="ui-monospace,Menlo,monospace">const score = evaluate(resume);</text>
+          <text x="293" y="211" font-size="5.6" fill="#d7dde8" font-family="ui-monospace,Menlo,monospace">if (score &gt;= 80) greet();</text>
+          <text x="293" y="218" font-size="5.6" fill="#d7dde8" font-family="ui-monospace,Menlo,monospace">return { score };</text>
+          <!-- 步骤 4 -->
+          <rect x="276" y="232" width="164" height="28" rx="8" fill="#ffffff" stroke="#eef0f2"/>
+          <rect x="276" y="232" width="3" height="28" rx="1.5" fill="#07a35c"/>
+          <text x="288" y="248" font-size="7.5" fill="#16181d">招呼已发送</text>
+          <text x="432" y="248" font-size="6.5" fill="#8b95a3" text-anchor="end">09:25</text>
+          <text x="288" y="257" font-size="6" fill="#2f6bf0">原始输出</text>
+          <!-- 步骤 5 -->
+          <rect x="276" y="266" width="164" height="20" rx="8" fill="#ffffff" stroke="#eef0f2"/>
+          <rect x="276" y="266" width="3" height="20" rx="1.5" fill="#c3d4fb"/>
+          <text x="288" y="279" font-size="7.5" fill="#16181d">本批结束 · 处理 248 人</text>
+          <text x="432" y="279" font-size="6.5" fill="#8b95a3" text-anchor="end">09:25</text>
         </svg>
-        <figcaption><b>筛选面板</b> · 结论、依据（命中的是哪一条标准）和理由，一屏看完</figcaption>
+        <figcaption><b>工作台</b> · 左边下一句指令，右边实时看程序跑到哪一步</figcaption>
       </figure>
       <!-- 模拟图 2：简历解析与证据 -->
+      <!-- 模拟图 2：过程流特写（纯 SVG 手绘，代码与数据均为占位示意） -->
       <figure class="shot">
-        <svg viewBox="0 0 460 300" role="img" aria-label="简历解析示意">
+        <svg viewBox="0 0 460 300" role="img" aria-label="过程流示意：步骤、耗时与代码原样展开">
           <rect width="460" height="300" fill="#ffffff"/>
-          <rect width="460" height="34" fill="#f6f7f9"/>
-          <circle cx="18" cy="17" r="4" fill="#f26d6d"/><circle cx="32" cy="17" r="4" fill="#f5c445"/><circle cx="46" cy="17" r="4" fill="#5fc46d"/>
+          <rect width="460" height="26" fill="#f6f7f9"/>
+          <circle cx="16" cy="13" r="4" fill="#f26d6d"/><circle cx="30" cy="13" r="4" fill="#f5c445"/><circle cx="44" cy="13" r="4" fill="#5fc46d"/>
+          <rect x="64" y="8" width="108" height="10" rx="5" fill="#e7e9ee"/>
+          <rect x="14" y="40" width="432" height="246" rx="14" fill="#ffffff" stroke="#e6e9ef"/>
+          <path d="M30 54h13M30 58.5h9M30 63h11" fill="none" stroke="#2f6bf0" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="49" y="62" font-size="11" font-weight="700" fill="#10131a">过程流</text>
+          <rect x="352" y="52" width="14" height="14" rx="4" fill="#ffffff" stroke="#c8ccd3"/>
+          <path d="M355.5 56l3 3 4.5-5" fill="none" stroke="#8b95a3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="372" y="62" font-size="8.5" fill="#5a6472">无人值守</text>
+          <rect x="412" y="52" width="24" height="14" rx="5" fill="#f7f8fa" stroke="#e6e9ef"/>
+          <text x="424" y="61.5" font-size="7.5" fill="#5a6472" text-anchor="middle">清空</text>
+          <line x1="14" y1="78" x2="446" y2="78" stroke="#e6e9ef"/>
+
           <g font-family="-apple-system,'PingFang SC',sans-serif">
-            <text x="24" y="66" font-size="13" font-weight="600" fill="#16181d">简历解析 · 陈**.pdf</text>
-            <rect x="24" y="84" width="412" height="1" fill="#e7e9ee"/>
-            <text x="24" y="112" font-size="11" fill="#8a8f9e">目标岗位相关年限</text>
-            <text x="150" y="112" font-size="12" fill="#16181d" font-weight="600">4 年 2 个月（按月复算）</text>
-            <rect x="150" y="118" width="286" height="16" rx="8" fill="#eef3fe"/>
-            <rect x="150" y="118" width="196" height="16" rx="8" fill="#c9dcf9"/>
-            <text x="24" y="146" font-size="11" fill="#8a8f9e">证据原句</text>
-            <rect x="24" y="156" width="412" height="34" rx="8" fill="#f6f7f9"/>
-            <text x="36" y="172" font-size="10.5" fill="#565b6b">「负责跨境电商运营，2021.09 至今」</text>
-            <text x="24" y="212" font-size="11" fill="#8a8f9e">判据命中</text>
-            <rect x="80" y="200" width="112" height="18" rx="9" fill="#e8f4ec"/><text x="136" y="213" font-size="10.5" fill="#2c9e5f" text-anchor="middle">判据 8 · 通过</text>
-            <rect x="202" y="200" width="112" height="18" rx="9" fill="#e8f4ec"/><text x="258" y="213" font-size="10.5" fill="#2c9e5f" text-anchor="middle">判据 0.11 · 通过</text>
-            <rect x="324" y="200" width="112" height="18" rx="9" fill="#fdecec"/><text x="380" y="213" font-size="10.5" fill="#c04b4b" text-anchor="middle">判据 14 · 否决</text>
-            <text x="24" y="252" font-size="11" fill="#8a8f9e">最终结论</text>
-            <rect x="90" y="240" width="86" height="22" rx="11" fill="#2f6bf0"/>
-            <text x="133" y="255" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="600">进入闸门</text>
+            <!-- 步骤 1 -->
+            <rect x="26" y="90" width="408" height="38" rx="9" fill="#eef3fe"/>
+            <rect x="26" y="90" width="3" height="38" rx="1.5" fill="#2f6bf0"/>
+            <rect x="40" y="100" width="18" height="18" rx="5" fill="#ffffff" stroke="#c3d4fb"/>
+            <path d="M46 106.5l6 3.5-6 3.5z" fill="#2f6bf0"/>
+            <text x="66" y="106" font-size="9.5" font-weight="600" fill="#10131a">已启动：前端工程师</text>
+            <text x="66" y="118" font-size="8" fill="#2f6bf0">原始输出</text>
+            <text x="420" y="106" font-size="8" fill="#8b95a3" text-anchor="end">09:24:06</text>
+            <!-- 步骤 2 -->
+            <rect x="26" y="136" width="408" height="38" rx="9" fill="#ffffff" stroke="#eef0f2"/>
+            <rect x="26" y="136" width="3" height="38" rx="1.5" fill="#c3d4fb"/>
+            <rect x="40" y="146" width="18" height="18" rx="5" fill="#eef3fe"/>
+            <path d="M45 152h8M45 156h8M45 160h5" fill="none" stroke="#2f6bf0" stroke-width="1.3" stroke-linecap="round"/>
+            <text x="66" y="152" font-size="9.5" font-weight="600" fill="#10131a">筛选条件已加载 · 12 条</text>
+            <text x="66" y="164" font-size="8" fill="#2f6bf0">原始输出</text>
+            <text x="420" y="152" font-size="8" fill="#8b95a3" text-anchor="end">09:24:08</text>
+            <!-- 步骤 3：代码展开 -->
+            <rect x="26" y="182" width="408" height="92" rx="9" fill="#ffffff" stroke="#eef0f2"/>
+            <rect x="26" y="182" width="3" height="92" rx="1.5" fill="#07a35c"/>
+            <rect x="40" y="192" width="18" height="18" rx="5" fill="#e8f8ee"/>
+            <path d="M44.5 201l3 3 6-6.5" fill="none" stroke="#07a35c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="66" y="198" font-size="9.5" font-weight="600" fill="#10131a">评估通过 · 82 分</text>
+            <text x="66" y="210" font-size="8" fill="#2f6bf0">代码 +3 行</text>
+            <text x="420" y="198" font-size="8" fill="#8b95a3" text-anchor="end">09:24:19</text>
+            <rect x="40" y="216" width="380" height="48" rx="7" fill="#0f1420"/>
+            <text x="50" y="227" font-size="6.5" fill="#6b7890" font-family="ui-monospace,Menlo,monospace" letter-spacing=".5">CODE</text>
+            <rect x="384" y="220" width="28" height="11" rx="4" fill="none" stroke="#2b3546"/>
+            <text x="398" y="228" font-size="6" fill="#9aa7bd" text-anchor="middle" font-family="-apple-system,'PingFang SC',sans-serif">复制</text>
+            <text x="50" y="240" font-size="7" fill="#7fb4ff" font-family="ui-monospace,Menlo,monospace">const score = evaluate(resume);</text>
+            <text x="50" y="251" font-size="7" fill="#d7dde8" font-family="ui-monospace,Menlo,monospace">if (score &gt;= 80) await greet();</text>
+            <text x="50" y="261" font-size="7" fill="#d7dde8" font-family="ui-monospace,Menlo,monospace">return { score, greeted: true };</text>
           </g>
         </svg>
-        <figcaption><b>简历解析</b> · 年限重算、证据原文、命中情况同屏可溯</figcaption>
+        <figcaption><b>过程流</b> · 每一步都有耗时和结论，代码原样展开，随时可复制</figcaption>
       </figure>
     </div>
   </div>
@@ -668,8 +771,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
         <p>条件写在一份文件里、年限按月重算、多版简历对撞，AI 用不了就跳过</p></div>
       <div class="tl-item done"><h3>装成桌面应用<span class="tag tag-done">已上线</span></h3>
         <p>macOS / Windows 安装包，GitHub Releases 上的地址不会变</p></div>
-      <div class="tl-item done"><h3>网页控制台 · 七个页签<span class="tag tag-done">已上线</span></h3>
-        <p>仪表盘、启动筛选、岗位与条件、运行日志、历史记录、批次与复盘、设置，浏览器里都能改</p></div>
+      <div class="tl-item done"><h3>网页控制台 · 工作台<span class="tag tag-done">已上线</span></h3>
+        <p>左边下指令、右边看过程：跑哪个岗位、跑到哪一步、代码长什么样，一屏看完。条件、历史、复盘、设置也都在同一个控制台里</p></div>
       <div class="tl-item done"><h3>批量处理 + 复盘报告 + 反馈回流<span class="tag tag-done">已上线</span></h3>
         <p>每批跑多少人在网页上定，跑完自动出报告，面试结果用 CSV 导回来</p></div>
       <div class="tl-item done"><h3>当前版本 · 通用版 + 新手引导 + 技术侧清单<span class="tag tag-done">已上线</span></h3>
@@ -848,19 +951,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;margin-top:20px;back
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io/releases" target="_blank" rel="noopener">Releases</a>
       <a href="https://github.com/QSCF6-live/QSCF6-live.github.io" target="_blank" rel="noopener">GitHub</a>
     </div>
-    <span>© 2026 BOSS智能筛选 · v1.0.2</span>
+    <span>© 2026 BOSS智能筛选 · v1.0.3</span>
   </div>
 </footer>
 
 <script>
-const REL = 'https://github.com/QSCF6-live/QSCF6-live.github.io/releases/download/v1.0.2';
-// Windows 与 macOS 资产均在 Release v1.0.2 上（GitHub 资产名中文被剥离，统一用 BOSS. 前缀）
+const REL = 'https://github.com/QSCF6-live/QSCF6-live.github.io/releases/download/v1.0.3';
+// Windows 与 macOS 资产在同一版 Release 上（GitHub 资产名中文被剥离，统一用 BOSS. 前缀）
 const FILES = {
   mac: { label:'macOS',
-    primary:{ href:REL+'/BOSS.1.0.2-arm64.dmg',     t:'下载 for macOS', d:'安装镜像 · Apple Silicon（M 系列）', sz:'112 MB', pending:false },
-    alt:    { href:REL+'/BOSS.1.0.2-arm64-mac.zip', t:'备选：.zip 免安装版（解压即用）', sz:'108 MB' } },
+    primary:{ href:REL+'/BOSS.1.0.3-arm64.dmg',     t:'下载 for macOS', d:'安装镜像 · Apple Silicon（M 系列）', sz:'112 MB', pending:false },
+    alt:    { href:REL+'/BOSS.1.0.3-arm64-mac.zip', t:'备选：.zip 免安装版（解压即用）', sz:'109 MB' } },
   win: { label:'Windows',
-    primary:{ href:REL+'/BOSS.1.0.2-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'92 MB', pending:false } }
+    primary:{ href:REL+'/BOSS.1.0.3-win64.exe', t:'下载 for Windows', d:'安装程序 · 64 位（支持 Win10 / Win11）', sz:'92 MB', pending:false } }
 };
 let os = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac';
 function pick(o){
